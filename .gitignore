@@ -1,0 +1,58 @@
+# ================================
+# Environment & Configuration Files
+# ================================
+.env
+.vscode/
+!.vscode/settings.json  # Include workspace settings if needed
+
+# ================================
+# Cache & Compiled Files
+# ================================
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# ================================
+# Source Code and Scripts Exclusions
+# ================================
+scripts/demo_one_level_three_clusters_w_target.py
+
+# ================================
+# Data Files
+# ================================
+data/processed/*
+data/raw/*
+docs/*
+!data/processed/.gitkeep
+!data/raw/.gitkeep
+!docs/.gitkeep
+
+# ================================
+# Utility Files
+# ================================
+src/__pycache__/
+
+# ================================
+# Results Files (Optional)
+# ================================
+results/logs/*
+!results/logs/.gitkeep
+results/models/*
+!results/models/.gitkeep
+
+# ================================
+# Old Code Files
+# ================================
+old/                   # Retired or backup files
+
+# ================================
+# Temporary & Backup Files
+# ================================
+*.tmp
+*.log
+*.bak
+*~
+*.swp
