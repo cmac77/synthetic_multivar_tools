@@ -1,11 +1,9 @@
 # `synthetic_multivar_tools`
 
-The `synthetic_multivar_tools` repository is designed to help data scientists generate, explore, and visualize highly customizable synthetic multivariate data. The modules support the creation of realistic, privacy-compliant datasets with complex, hierarchical relationships. Users can iteratively build synthetic datasets by adding tailored numerical and categorical features, specifying target outcomes, and defining correlation types among features and targets. The repository offers a foundation for studying multivariate interactions in a controlled, reproducible environment.
+The `synthetic_multivar_tools` repository is designed to help data scientists generate, explore, and visualize highly customizable synthetic multivariate data. The modules support the creation of realistic datasets with complex, hierarchical relationships. Users can iteratively build synthetic datasets by adding tailored numerical and categorical features, specifying target outcomes, and defining correlation types among features and targets. The repository offers a foundation for studying multivariate interactions in a controlled, reproducible environment.
 
 ## Real-World Applications
-This repository can be used for applications to real-world data scenarios, such as in healthcare analytics.
-
-The `synthetic_multivar_tools` repository provides a robust framework for generating, exploring, and visualizing synthetic multivariate datasets with known properties. These capabilities are especially relevant for real world data scenarios such as in healthcare analytics. In this context, key features and applications include:
+The `synthetic_multivar_tools` repository provides a robust framework for generating, exploring, and visualizing synthetic multivariate datasets with with known properties. These capabilities are especially relevant for real world data scenarios such as in healthcare analytics, where this repo can help support privacy-compliant data analysis and model development. In this context, key features and applications include:
 
 - **Multilevel Modeling**:
   - Supports the analysis of patient outcomes shaped by both individual characteristics (e.g., age, comorbidities) and broader systemic factors.
@@ -23,11 +21,11 @@ The `synthetic_multivar_tools` repository provides a robust framework for genera
 - **Correlation, Stress Testing, and Sensitivity Analysis**:
   - Apply Cholesky decomposition and copulas to establish specific correlations between variables, generating realistic data scenarios to evaluate model performance under both typical and extreme conditions.
   - Perform stress testing by creating synthetic datasets that mimic healthcare system disruptions, like patient volume surges, to ensure the robustness and reliability of predictive models during critical situations.
-  - Conduct sensitivity analysis with controlled data variations to pinpoint influential features, guiding data-driven strategies for targeted and effective healthcare interventions.
+  - Conduct sensitivity analysis with controlled data variations to pinpoint influential features, guiding strategies for targeted and effective healthcare interventions.
 
 - **Visualizing Data in 2D and 3D**:
   - Offers tools to create clear visual representations of complex data structures, making it easier to interpret relationships between features, clusters, and hierarchical patterns.
-  - Enhances the ability to communicate data-driven insights effectively, supporting better decision-making in research and operational contexts.
+
 
 ## Key Functionalities
 
@@ -74,11 +72,11 @@ The repository is organized into several Python modules within the `src` directo
 ## Example Figures
 **1. A user specified geometry determines centroid placement**
 ![Three Clusters on One Level](results/figures/demo_three_clusters_no_data.png)
-**2. Same figure as above but with synthetic data specified by an optional distrbution overlayed**
+**2. Same figure as above but with synthetic data specified by an optional parameterized distrbutions overlayed**
 ![Three Clusters on One Level](results/figures/demo_three_clusters.png)
 **3. A user specified geometry determines multilevel centroid placement***
 ![Three Clusters on One Level](results/figures/demo_two_level_clusters_no_data.png)
-**4. Same figure as above but with synthetic data specified by an optional distrbution overlayed**
+**4. Same figure as above but with synthetic data specified by an optional parameterized distrbutions overlayed**
 ![Three Clusters on One Level](results/figures/demo_two_level_clusters.png)
 
 ## Directory Structure
