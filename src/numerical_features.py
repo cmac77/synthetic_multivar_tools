@@ -277,6 +277,8 @@ class NumericalFeatures:
         centroids (Optional[Dict[str, np.ndarray]]): Stores the centroids generated for each level.
         distance_matrix_global (Optional[dict]): Stores the global distance matrix from HierarchicalSimplex.
         distance_matrix_levels (Optional[dict]): Stores the distance matrices specific to each level.
+        selected_centroids (Optional[dict]): Select specific centroids around which to generate data.
+            Use the wildcard * to select a centroid and all of its direct children.
     """
 
     levels: List[int]  # Hierarchical levels, starting with number of targets
@@ -287,6 +289,8 @@ class NumericalFeatures:
     centroids: Optional[Dict[str, np.ndarray]] = None
     distance_matrix_global: Optional[dict] = None
     distance_matrix_levels: Optional[dict] = None
+    selected_centroids: Optional[List[str]] = None
+
 
     def __post_init__(self):
         """
@@ -328,19 +332,104 @@ class NumericalFeatures:
 
         self.centroids = hierarchical_simplex.vertices_hierarchy
 
+        # Apply filtering logic if selected_centroids is provided
+        if self.selected_centroids:
+            self.centroids = self._filter_centroids_with_wildcard(hierarchical_simplex)
+
+        # Adjust distance matrices to include only selected centroids
+        self._filter_distance_matrices(hierarchical_simplex)
+        
         # Expand centroids to n_features dimensions, with additional safety checks
         self._expand_to_n_features()
 
-        # Store the global distance matrix from HierarchicalSimplex
-        self.distance_matrix_global = (
-            hierarchical_simplex.distance_matrix_global
-        )
+    def _filter_centroids_with_wildcard(self, hierarchical_simplex):
+        """
+        Filter centroids based on the selected_centroids, including wildcard handling.
 
-        # Store the level-specific distance matrices from HierarchicalSimplex
-        self.distance_matrix_levels = (
-            hierarchical_simplex.distance_matrix_levels
-        )
+        Args:
+            hierarchical_simplex (HierarchicalSimplex): An instance of HierarchicalSimplex to access vertices.
 
+        Returns:
+            dict: A dictionary containing the filtered centroids.
+        """
+        selected_centroids_dict = {}
+        all_keys = hierarchical_simplex.vertices_hierarchy.keys()
+
+        for pattern in self.selected_centroids:
+            if "*" in pattern:
+                if pattern.endswith("*") and "-" in pattern:
+                    # Case: "3-*" -> Only select all descendants of "3", excluding "3" itself
+                    parent_prefix = pattern[:-1]  # Remove the '*' to get "3-"
+                    selected_keys = [
+                        key for key in all_keys if key.startswith(parent_prefix) and key != parent_prefix.rstrip("-")
+                    ]
+                elif pattern.endswith("*"):
+                    # Case: "3*" -> Select "3" and all its descendants
+                    prefix = pattern[:-1]  # Remove the '*' to get "3"
+                    selected_keys = [
+                        key for key in all_keys if key.startswith(prefix)
+                    ]
+                else:
+                    continue  # Skip invalid patterns
+            else:
+                # Exact match case
+                selected_keys = [pattern] if pattern in all_keys else []
+
+            # Add the selected centroids to the dictionary
+            for key in selected_keys:
+                selected_centroids_dict[key] = hierarchical_simplex.vertices_hierarchy[key]
+
+        return selected_centroids_dict
+    
+    def _filter_distance_matrices(self, hierarchical_simplex):
+        """
+        Filter the distance matrices to include only the selected centroids.
+
+        Args:
+            hierarchical_simplex (HierarchicalSimplex): An instance of HierarchicalSimplex to access distance matrices.
+        """
+        selected_keys = list(self.centroids.keys())
+
+        # Filter the global distance matrix
+        global_keys = hierarchical_simplex.distance_matrix_global["keys"]
+        selected_indices = [
+            global_keys.index(key) for key in selected_keys if key in global_keys
+        ]
+        distance_matrix = hierarchical_simplex.distance_matrix_global["distance_matrix"]
+
+        # Create a submatrix for the selected centroids
+        if len(selected_indices) > 1:
+            self.distance_matrix_global = {
+                "distance_matrix": distance_matrix[np.ix_(selected_indices, selected_indices)],
+                "keys": selected_keys
+            }
+        else:
+            # Handle case with only one centroid
+            self.distance_matrix_global = {
+                "distance_matrix": np.array([[0]]),  # A 1x1 matrix with a distance of 0
+                "keys": selected_keys
+            }
+
+        # Filter the level-specific distance matrices
+        self.distance_matrix_levels = {}
+        for level, level_info in hierarchical_simplex.distance_matrix_levels.items():
+            level_keys = level_info["keys"]
+            selected_level_indices = [
+                level_keys.index(key) for key in selected_keys if key in level_keys
+            ]
+
+            if len(selected_level_indices) > 1:
+                self.distance_matrix_levels[level] = {
+                    "distance_matrix": level_info["distance_matrix"][np.ix_(selected_level_indices, selected_level_indices)],
+                    "keys": [level_keys[i] for i in selected_level_indices]
+                }
+            else:
+                # Handle case with only one centroid in this level
+                self.distance_matrix_levels[level] = {
+                    "distance_matrix": np.array([[0]]),  # A 1x1 matrix with a distance of 0
+                    "keys": [level_keys[i] for i in selected_level_indices]
+                }
+    
     def add_numerical_features(
         self, n_samples: int, assignments: str = "equal"
     ) -> pd.DataFrame:

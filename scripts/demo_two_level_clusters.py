@@ -26,11 +26,11 @@ os.makedirs(path_figures, exist_ok=True)
 
 #%% Step 2: Configuring the synthetic data generation
 # Define hierarchical levels
-list_levels = [3, 4]  # Two levels: first level with 4 vertices, second level with 3 vertices
+list_levels = [4, 3]  # Two levels: first level with 4 vertices, second level with 3 vertices
 
 # Define distance information
 distance_info = DistanceInfo(
-    distance=[3, 1.5],  # Distances for each level
+    distance=[6, 10],  # Distances for each level
     distance_type=["edge", "edge"]
 )
 
@@ -40,17 +40,26 @@ clusters_info = ClustersInfo(
     parameters={"mean": 0, "std_dev": 0.5}  # Default parameters for normal distribution
 )
 
-# Initialize the NumericalFeatures class
+# # Initialize the NumericalFeatures class
+# numerical_feature_generator = NumericalFeatures(
+#     levels=list_levels,
+#     distance_info=distance_info,
+#     clusters_info=clusters_info,
+#     n_features=3  # Three numerical features for 3D visualization
+# )
+
+# Example usage with wildcard
 numerical_feature_generator = NumericalFeatures(
     levels=list_levels,
     distance_info=distance_info,
     clusters_info=clusters_info,
-    n_features=3  # Three numerical features for 3D visualization
+    n_features=3,
+    selected_centroids=["0", "1", "2", "3*"]  # Selects "0-1" and all of its direct descendants
 )
 
 #%% Step 3: Generating synthetic data
 # Number of samples to generate
-int_n_samples = 300
+int_n_samples = 1000
 
 # Generate the data
 df_numerical_features = numerical_feature_generator.add_numerical_features(
