@@ -68,9 +68,9 @@ The repository is organized into several Python modules within the `src` directo
 
 ## Example Figures
 **1. A user specified geometry determines centroid placement**
-![Three Clusters on One Level](results/figures/demo_two_level_clusters_no_data.png)
+![Three Clusters on One Level](results/figures/demo_three_clusters_no_data.png)
 **2. Same figure as above but with synthetic data specified by an optional distrbution overlayed**
-![Three Clusters on One Level](results/figures/demo_two_level_clusters.png)
+![Three Clusters on One Level](results/figures/demo_three_clusters.png)
 **3. A user specified geometry determines multilevel centroid placement***
 ![Three Clusters on One Level](results/figures/demo_two_level_clusters_no_data.png)
 **4. Same figure as above but with synthetic data specified by an optional distrbution overlayed**
