@@ -67,14 +67,14 @@ The repository is organized into several Python modules within the `src` directo
     ```
     
 ## Example Figures
-**1. A user specified geometry determines centroid placement**
+**1. 3D visualization of a user-specified geometric arrangement used for data point creation**
 ![Three Clusters on One Level](results/figures/demo_three_clusters_no_data.png)
-**2. Same figure as above but with synthetic data specified by an optional parameterized distrbutions overlayed**
+**2. Similar to above but with synthetic data points overlaid using a customized, parameterized distribution**
 ![Three Clusters on One Level](results/figures/demo_three_clusters.png)
-**3. A user specified geometry determines multilevel centroid placement**
-![Three Clusters on One Level](results/figures/demo_two_level_clusters_no_data.png)
-**4. Same figure as above but with synthetic data specified by an optional parameterized distrbutions overlayed**
-![Three Clusters on One Level](results/figures/demo_two_level_clusters.png)
+**3. In this example, a user-defined two-level hierarchical geometry specifies how the generated data will be organized**
+![Clusters on Two Levels](results/figures/demo_two_level_clusters_no_data.png)
+**4. Similar to above but data points are randomly generated from a specific distribution and overlaid**
+![Clusters on Two Levels](results/figures/demo_two_level_clusters.png)
 
 ## Directory Structure
 ```markdown
