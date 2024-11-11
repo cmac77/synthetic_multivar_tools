@@ -74,7 +74,7 @@ FigureGenerator.plot_data(
     centroids,
     distance_matrix_levels,
     distance_matrix_global,
-    title="3D Visualization of Two-Level Clusters",
+    title="Similar to above but with synthetic data points overlaid using a customized, parameterized distribution",
     path_save=path_figure_file
 )
 
@@ -87,7 +87,7 @@ FigureGenerator.plot_data(
     centroids,
     distance_matrix_levels,
     distance_matrix_global,
-    title="3D Visualization of Two-Level Clusters (No Data Points)",
+    title="3D visualization of a user-specified geometric arrangement used for data point creation",
     path_save=path_figure_file_no_data,
     hide_data=True,
     axis_limits=FigureGenerator.axis_limits  # Use the saved axis limits
